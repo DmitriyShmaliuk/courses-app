@@ -1,0 +1,27 @@
+{
+  "name": "node-js-course",
+  "version": "1.0.0",
+  "description": "Node JS Course Example",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DmitriyShmaliuk/node-js-course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DmitriyShmaliuk/node-js-course/issues"
+  },
+  "homepage": "https://github.com/DmitriyShmaliuk/node-js-course#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
