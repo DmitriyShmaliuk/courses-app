@@ -16,8 +16,6 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
     const course = await Course.getById(id);
 
-    console.log(course);
-
     if (course) {
         res.render('course', {
             title: `Course ${course.name}`,
@@ -28,6 +26,21 @@ router.get('/:id', async (req, res) => {
     else {
         res.redirect('error');
     }
+});
+
+router.get('/:id/edit', async (req, res) => {
+    const { id } = req.params;
+    const course = await Course.getById(id);
+
+    res.render('course-edit', {
+        title: `Edit ${course.name}`,
+        course
+    })
+});
+
+router.post('/edit', async (req, res) => {
+    await Course.update(req.body);
+    res.redirect('/courses');
 });
 
 module.exports = router;

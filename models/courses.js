@@ -50,6 +50,25 @@ class Course {
 
         return course;
     }
+
+    static async update({name, price, image, id}){
+        const courses = await Course.getAll();
+        const course = courses.find(course => course.id === id);
+
+        course.name = name;
+        course.price = price;
+        course.image = image;
+
+        fs.writeFile(
+            path.join(__dirname, '..', 'database', 'courses.json'),
+            JSON.stringify(courses),
+            (err) => {
+                if (err) {
+                    throw new Error(err);
+                }
+            }  
+        )
+    }
 }
 
 module.exports = Course;
