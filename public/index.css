@@ -1,0 +1,18 @@
+.nav-wrapper {
+    padding: 0px 10px;
+}
+
+.price {
+    font-size: 2rem;
+}
+
+.course {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.course figure,
+.course figure img {
+    width: 100%;
+    margin: 0px;
+} 
