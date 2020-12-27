@@ -1,0 +1,36 @@
+<h2>Cart</h2>
+
+<div class="cart-wrapper">
+{{#if courses}}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Count</th>
+                <th>Price per one</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each courses}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{count}}</td>
+                <td>{{price}}</td>
+                <td>
+                    <button class="btn btn-primary delete-btn" data-id="{{id}}">Delete</button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <p>
+        <strong>Total price: </strong>
+        <span class="price">{{totalPrice}}</span>
+    </p>
+{{else}}
+    <p class="center">The cart is empty</p>
+{{/if}}
+</div>

@@ -30,12 +30,19 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/edit', async (req, res) => {
     const { id } = req.params;
-    const course = await Course.getById(id);
+    const { allow } = req.query;
+    
+    if (allow) {
+        const course = await Course.getById(id);
 
-    res.render('course-edit', {
-        title: `Edit ${course.name}`,
-        course
-    })
+        res.render('course-edit', {
+            title: `Edit ${course.name}`,
+            course
+        });
+    }
+    else {
+        res.redirect('/courses');
+    }
 });
 
 router.post('/edit', async (req, res) => {
