@@ -66,7 +66,7 @@ router.post('/remove', async (req, res) => {
         res.redirect('/courses');
     }
     catch (err) {
-        res.redirect('/error');
+        console.log(err);
     }
 });
 

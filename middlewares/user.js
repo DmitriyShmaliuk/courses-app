@@ -18,7 +18,7 @@ module.exports = async function(req, res, next) {
     }
   }
   catch (err) {
-    res.redirect('/error');
+    console.log(err);
   }
 
   next();
