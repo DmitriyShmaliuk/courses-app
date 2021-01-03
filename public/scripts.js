@@ -2,11 +2,27 @@ document.querySelectorAll('.price').forEach(node => {
   node.textContent = toCurrency(node.textContent);
 });
 
+document.querySelectorAll('.date').forEach(node => {
+  console.log(node.textContent);
+  node.textContent = toDate(node.textContent);
+});
+
 function toCurrency(number) {
-  return new Intl.NumberFormat('uk-UK', {
+  return new Intl.NumberFormat('en-EN', {
     currency: 'EUR',
     style: 'currency',
   }).format(number)
+};
+
+function toDate(date) {
+  return new Intl.DateTimeFormat('en-EN', {
+    year: '2-digit',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(new Date(date));
 }
 
 const $cart = document.querySelector('.cart-wrapper');

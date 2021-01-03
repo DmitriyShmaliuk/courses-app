@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const Course = require('../models/courses');
+const Course = require('../models/course');
 const router = Router();
 
 router.get('/', async (req,res) => {
@@ -54,14 +54,14 @@ module.exports = router;
 
 function mapCartItems(items) {
   return items.map(item => ({
-      ...item.courseId._doc,
-      id: item.courseId.id,
-      count: item.count,
+    ...item.courseId._doc,
+    id: item.courseId.id,
+    count: item.count,
   }));
 }
 
 function calculateTotalPrice(items) {
   return items.reduce((total, item) => {
-      return total + item.price * item.count;
+    return total + item.price * item.count;
   }, 0);
 }

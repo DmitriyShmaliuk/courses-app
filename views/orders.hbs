@@ -1,0 +1,33 @@
+<div class="row">
+  <h2 class="col s12 center">Orders</h2>
+</div>
+
+{{#if orders.length}}
+<div class="row">
+  {{#each orders}}
+    <div class="col s6 offset-s3">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-title">
+            Order <small>{{id}}</small>
+          </div>
+          
+          <p class="date">{{date}}</p>
+          <em>{{user.name}} ({{user.email}})</em>
+          <ol>
+            {{#each courses}}
+            <li>{{name}} (x<strong>{{count}}</strong>)</li>
+            {{/each}}
+          </ol>
+
+          <hr>
+
+          <p class="price">{{totalPrice}}</p>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
+{{else}}
+<p class="center">There are no orders here</p>
+{{/if}}
