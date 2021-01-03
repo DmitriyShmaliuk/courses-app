@@ -65,7 +65,7 @@ schema.methods.removeFromCart = async function(course) {
 
 schema.methods.clearCart = async function() {
   this.cart.items = [];
-  
+
   try {
     await this.save();
   } catch (err) {
