@@ -13,9 +13,9 @@ const userMiddleware = require('./middlewares/user');
 const app = express();
 
 const hbs = exphbs({
-    defaultLayout: 'main',
-    extname: 'hbs',
-    handlebars: allowInsecurePrototypeAccess(handlebars),
+  defaultLayout: 'main',
+  extname: 'hbs',
+  handlebars: allowInsecurePrototypeAccess(handlebars),
 });
 
 app.engine('hbs', hbs);
@@ -33,17 +33,17 @@ app.use('/cart', cartRoutes);
 const PORT = process.env.PORT || 3000;
 
 async function start(){
-    const url = `mongodb+srv://dshmaliuk:3esUB8CeogPvg2U7@cluster0.4znuh.mongodb.net/courses-shop?retryWrites=true&w=majority`;
+  const url = `mongodb+srv://dshmaliuk:3esUB8CeogPvg2U7@cluster0.4znuh.mongodb.net/courses-shop?retryWrites=true&w=majority`;
 
-    try {
-        await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
-        app.listen(3000, () => {
-            console.log(`Server is running on port: ${PORT}`);
-        });
-    }
-    catch (err) {
-        console.log(err);
-    }
+  try {
+    await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+    app.listen(3000, () => {
+        console.log(`Server is running on port: ${PORT}`);
+    });
+  }
+  catch (err) {
+    console.log(err);
+  }
 };
 
 start();
