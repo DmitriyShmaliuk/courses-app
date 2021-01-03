@@ -9,7 +9,15 @@ const schema = new Schema({
         type: Number,
         required: true,
     },
-    image: String,
+    image: {
+        type: String,
+        default: '',
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    }
 });
 
 module.exports = model('Course', schema);
