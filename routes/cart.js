@@ -4,17 +4,17 @@ const router = Router();
 
 router.get('/', async (req,res) => {
   const { cart } = await req.user
-      .populate('cart.items.courseId')
-      .execPopulate();
+    .populate('cart.items.courseId')
+    .execPopulate();
 
   const courses = mapCartItems(cart.items);
   const totalPrice = calculateTotalPrice(courses);
 
   res.render('cart', {
-      title: 'Cart',
-      isCart: true,
-      totalPrice,
-      courses,
+    title: 'Cart',
+    isCart: true,
+    totalPrice,
+    courses,
   });
 });
 
@@ -22,11 +22,11 @@ router.post('/add', async (req,res) => {
   const { id } = req.body;
 
   try {
-      const course = await Course.findById(id);
-      req.user.addCourseToCart(course);
+    const course = await Course.findById(id);
+    req.user.addCourseToCart(course);
   }
   catch (err) {
-      console.log(err);
+    console.log(err);
   }
 
   res.redirect('/cart');

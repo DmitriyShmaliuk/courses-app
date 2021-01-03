@@ -1,24 +1,24 @@
 .nav-wrapper {
-    padding: 0px 10px;
+  padding: 0px 10px;
 }
 
 .price {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 .course {
-    width: 40%;
-    margin: 0 auto;
+  width: 40%;
+  margin: 0 auto;
 }
 
 .course figure,
 .course figure img {
-    width: 100%;
-    margin: 0px;
+  width: 100%;
+  margin: 0px;
 } 
 
 .actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

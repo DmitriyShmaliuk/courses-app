@@ -8,9 +8,9 @@ module.exports = async function(req, res, next) {
       req.user = candidate;
     } else {
       const newUser = new User ({
-          name: 'Dmitriy',
-          email: 'shmalyk9000@gmail.com',
-          cart: { items: [] }
+        name: 'Dmitriy',
+        email: 'shmalyk9000@gmail.com',
+        cart: { items: [] },
       });
 
       await newUser.save();
