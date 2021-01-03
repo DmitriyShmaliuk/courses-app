@@ -4,12 +4,12 @@ const schema = new Schema ({
   name: {
     type: String,
     required: true,
-	},
-	email: {
+  },
+  email: {
     type: String,
     required: true,
-	},
-	cart: {
+  },
+  cart: {
     items: [{
       courseId: {
         type: Schema.Types.ObjectId,
@@ -21,7 +21,7 @@ const schema = new Schema ({
         default: 1,
       }
     }]
-	}
+  }
 });
 
 schema.methods.addCourseToCart = async function(course) {
