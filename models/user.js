@@ -13,7 +13,7 @@ const schema = new Schema ({
         items: [{
             courseId: {
                 type: Schema.Types.ObjectId,
-                ref: 'User',
+                ref: 'Course',
                 required: true,
             },
             count: {
@@ -23,5 +23,22 @@ const schema = new Schema ({
         }]
     }
 });
+
+schema.methods.addCourseToCart = async function(course) {
+    const items = [...this.cart.items];
+    const candidate = items.find((c) => c.courseId.toString() === course._id.toString());
+
+    if (candidate) {
+        candidate.count = candidate.count + 1;
+    } else {
+        items.push({
+            courseId: course._id,
+            count: 1,
+        });
+    }
+
+    this.cart = { items };
+    await this.save();
+};
 
 module.exports = model('User', schema);
