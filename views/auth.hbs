@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col s12">
     <ul class="tabs">
-      <li class="tab col s6"><a href="#login">Test 1</a></li>
-      <li class="tab col s6"><a href="#register">Test 2</a></li>
+      <li class="tab col s6"><a href="#login">Login</a></li>
+      <li class="tab col s6"><a href="#register">Register</a></li>
     </ul>
   </div>
 
@@ -11,15 +11,14 @@
 
     <form class="col s8 offset-s2" method="POST" action="/auth/login">
       <div class="input-field">
-        <input class="validate" id="name" placeholder="User name" name="name" type="text" required>
-        <label for="courseName">User name</label>
+        <input class="validate" id="email" placeholder="User email" name="email" type="email" required>
+        <label for="courseName">User email</label>
       </div>
 
       <div class="input-field">
         <input class="validate" id="password" placeholder="Password" name="password" type="password">
         <label for="price">Password</label>
       </div>
-
 
       <button class="btn" type="submit">Login</button>
     </form>
@@ -29,6 +28,11 @@
     <h2 class="center">Register</h2>
 
     <form class="col s8 offset-s2" method="POST" action="/auth/register">
+      <div class="input-field">
+        <input class="validate" id="email" placeholder="User email" name="email" type="email" required>
+        <label for="courseName">User email</label>
+      </div>
+
       <div class="input-field">
         <input class="validate" id="name" placeholder="User name" name="name" type="text" required>
         <label for="courseName">User name</label>
@@ -40,7 +44,7 @@
       </div>
 
       <div class="input-field">
-        <input class="validate" id="rConfirmpPassword" placeholder="Confirm password" name="password" type="password">
+        <input class="validate" id="rConfirmpPassword" placeholder="Confirm password" name="rConfirmpPassword" type="password">
         <label for="price">Confirm password</label>
       </div>
 

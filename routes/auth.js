@@ -29,7 +29,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.get('/logout', authMiddleware, (req, res) => {
+router.get('/logout', authMiddleware, async (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       return res.redirect('/error');
@@ -38,5 +38,25 @@ router.get('/logout', authMiddleware, (req, res) => {
     res.redirect('/auth#login');
   });
 });
+
+router.post('/register', async (req, res) => {
+  const { email, name, password } = req.body;
+
+  try {
+    const candidate = await User.findOne({ email });
+
+    if (!candidate) {
+      const newUser = new User({ email, name, password, cart: { items: [] }});
+      await newUser.save();
+
+      res.redirect('/');
+    } else {
+      res.redirect('/auth#login');
+    }
+
+  } catch (err) {
+    res.redirect('/error');
+  }
+})
 
 module.exports = router;
