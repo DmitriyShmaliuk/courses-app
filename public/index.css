@@ -26,3 +26,12 @@
 .tabs {
   margin-top: 1.2em;
 }
+
+.auth .alert {
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 1rem;
+  background: rgba(255, 0, 0, 0.3);
+  color: rgba(255, 0, 0, 1);
+}

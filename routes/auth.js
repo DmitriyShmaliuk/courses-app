@@ -8,6 +8,8 @@ router.get('/', (req, res) => {
   res.render('auth', {
     title: 'Login',
     isAuthorization: true,
+    loginError: req.flash('loginError'),
+    registerError: req.flash('registerError'),
   })
 });
 
@@ -32,6 +34,7 @@ router.post('/login', async (req, res) => {
         });
       }
 
+      req.flash('loginError', 'Error: There is not user with this email or password is not correct.');
       res.redirect('/auth#login');
     }
   }
@@ -68,6 +71,7 @@ router.post('/register', async (req, res) => {
       }
     }
 
+    req.flash('registerError', 'Error: There is user with this email or passwords do not match.');
     res.redirect('/auth#register');
 
   } catch (err) {

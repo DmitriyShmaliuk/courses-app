@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
+const flash = require('connect-flash');
 const homeRoutes = require('./routes/home');
 const coursesRoutes = require('./routes/courses');
 const addRoutes = require('./routes/add-courses');
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: 'some_key', resave: false, saveUninitialized: false, store }));
 app.use(csrf());
+app.use(flash());
 app.use(variablesMiddleware);
 
 app.use('/', homeRoutes);
