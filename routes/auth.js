@@ -58,19 +58,17 @@ router.post('/register', async (req, res) => {
 
     if (!candidate) {
       const hasPassword = await bcrypt.hash(password, 12);
-      const areSame = await bcrypt.compare(hasPassword, confirmPassword);
+      const areSame = await bcrypt.compare(confirmPassword, hasPassword);
 
       if (areSame) {
         const newUser = new User({ email, name, password: hasPassword, cart: { items: [] }});
         await newUser.save();
 
-        return res.redirect('/');
+        return res.redirect('/auth#login');
       }
-
-      res.redirect('/auth#register');
-    } else {
-      res.redirect('/auth#login');
     }
+
+    res.redirect('/auth#register');
 
   } catch (err) {
     res.redirect('/error');

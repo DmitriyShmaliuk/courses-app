@@ -31,9 +31,15 @@ const $cart = document.querySelector('.cart-wrapper');
 
 $cart.addEventListener('click', ({target}) => {
   const isDeleteButton = target.classList.contains('delete-btn');
+  const { csrf } = target.dataset;
+
+  const requestData = {
+    method: 'delete',
+    headers: { 'XSRF-TOKEN': csrf }
+  };
 
   if (isDeleteButton) {
-    fetch(`cart/remove/${target.dataset.id}`, { method: 'delete' })
+    fetch(`cart/remove/${target.dataset.id}`, requestData)
       .then(res => res.json())
       .then(cart => drawCart(cart, $cart));
   }
