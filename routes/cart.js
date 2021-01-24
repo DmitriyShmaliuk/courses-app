@@ -1,8 +1,9 @@
 const { Router } = require('express');
 const Course = require('../models/course');
+const authMiddleware = require('../middlewares/auth');
 const router = Router();
 
-router.get('/', async (req,res) => {
+router.get('/', authMiddleware, async (req,res) => {
   const { cart } = await req.user
     .populate('cart.items.courseId')
     .execPopulate();
@@ -18,7 +19,7 @@ router.get('/', async (req,res) => {
   });
 });
 
-router.post('/add', async (req,res) => {
+router.post('/add', authMiddleware, async (req,res) => {
   const { id } = req.body;
 
   try {
@@ -32,7 +33,7 @@ router.post('/add', async (req,res) => {
   res.redirect('/cart');
 });
 
-router.delete('/remove/:id', async (req, res) => {
+router.delete('/remove/:id', authMiddleware, async (req, res) => {
   const { id } = req.params;
 
   try {

@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const User = require('../models/user');
+const authMiddleware = require('../middlewares/auth');
 const router = new Router();
 
 router.get('/', (req, res) => {
@@ -28,10 +29,10 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', authMiddleware, (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      res.redirect('/error');
+      return res.redirect('/error');
     }
 
     res.redirect('/auth#login');
