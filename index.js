@@ -3,14 +3,17 @@ const mongoose = require('mongoose');
 const path = require('path');
 const handlebars = require('handlebars');
 const exphbs = require('express-handlebars');
-const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const homeRoutes = require('./routes/home');
 const coursesRoutes = require('./routes/courses');
 const addRoutes = require('./routes/add-courses');
 const cartRoutes = require('./routes/cart');
 const ordersRoutes = require('./routes/orders');
 const authRoutes = require('./routes/auth');
-const userMiddleware = require('./middlewares/user');
+const variablesMiddleware = require('./middlewares/variables');
+const MONGODB_URI = 'mongodb+srv://dshmaliuk:3esUB8CeogPvg2U7@cluster0.4znuh.mongodb.net/courses-shop?retryWrites=true&w=majority';
 
 const app = express();
 
@@ -23,9 +26,14 @@ const hbs = exphbs({
 app.engine('hbs', hbs);
 app.set('view engine', 'hbs');
 
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-app.use(userMiddleware);
+app.use(session({ secret: 'some_key', resave: false, saveUninitialized: false, store }));
+app.use(variablesMiddleware);
 
 app.use('/', homeRoutes);
 app.use('/courses', coursesRoutes);
@@ -37,10 +45,8 @@ app.use('/auth', authRoutes);
 const PORT = process.env.PORT || 3000;
 
 async function start(){
-  const url = `mongodb+srv://dshmaliuk:3esUB8CeogPvg2U7@cluster0.4znuh.mongodb.net/courses-shop?retryWrites=true&w=majority`;
-
   try {
-    await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+    await mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
     app.listen(3000, () => {
       console.log(`Server is running on port: ${PORT}`);
     });

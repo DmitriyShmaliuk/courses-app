@@ -21,7 +21,7 @@ router.get('/:id', async (req, res) => {
       title: `Course ${course.name}`,
       layout: 'empty',
       course
-    }); 
+    });
   }
   else {
     res.redirect('error');
