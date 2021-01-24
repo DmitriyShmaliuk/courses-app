@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     const orders = await Order.find({ 'userId': req.user });
     const populatedOrders = await populateOrders(orders);
     const mapedOrders = mapOrders(populatedOrders);
-  
+
     res.render('orders', {
       title: 'Orders',
       isOrders: true,
@@ -57,9 +57,9 @@ function mapOrders(orders) {
     const courses = mapCourses(order.courses);
     const totalPrice = calculateTotalPrice(courses);
 
-    const user = { 
-      name: order.userId.name, 
-      email: order.userId.email 
+    const user = {
+      name: order.userId.name,
+      email: order.userId.email,
     };
 
     return { user, date, id, courses, totalPrice };

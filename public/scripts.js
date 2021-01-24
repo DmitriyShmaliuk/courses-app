@@ -7,6 +7,8 @@ document.querySelectorAll('.date').forEach(node => {
   node.textContent = toDate(node.textContent);
 });
 
+M.Tabs.init(document.querySelector('.tabs'));
+
 function toCurrency(number) {
   return new Intl.NumberFormat('en-EN', {
     currency: 'EUR',

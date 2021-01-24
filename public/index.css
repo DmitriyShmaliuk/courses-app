@@ -15,10 +15,14 @@
 .course figure img {
   width: 100%;
   margin: 0px;
-} 
+}
 
 .actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.tabs {
+  margin-top: 1.2em;
 }
