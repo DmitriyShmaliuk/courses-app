@@ -45,13 +45,11 @@ app.use('/cart', cartRoutes);
 app.use('/orders', ordersRoutes);
 app.use('/auth', authRoutes);
 
-const PORT = process.env.PORT || 3000;
-
 async function start(){
   try {
     await mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
-    app.listen(PORT, () => {
-      console.log(`Server is running on port: ${PORT}`);
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on port: ${process.env.PORT}`);
     });
   }
   catch (err) {

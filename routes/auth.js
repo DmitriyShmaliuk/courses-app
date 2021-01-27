@@ -2,6 +2,8 @@ const { Router } = require('express')
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const authMiddleware = require('../middlewares/auth');
+const sendRegistrationEmails = require('../emails/registration');
+
 const router = new Router();
 
 router.get('/', (req, res) => {
@@ -67,6 +69,7 @@ router.post('/register', async (req, res) => {
         const newUser = new User({ email, name, password: hasPassword, cart: { items: [] }});
         await newUser.save();
 
+        sendRegistrationEmails(email);
         return res.redirect('/auth#login');
       }
     }
