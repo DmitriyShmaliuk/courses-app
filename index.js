@@ -15,8 +15,7 @@ const cartRoutes = require('./routes/cart');
 const ordersRoutes = require('./routes/orders');
 const authRoutes = require('./routes/auth');
 const variablesMiddleware = require('./middlewares/variables');
-const MONGODB_URI = 'mongodb+srv://dshmaliuk:3esUB8CeogPvg2U7@cluster0.4znuh.mongodb.net/courses-shop?retryWrites=true&w=majority';
-
+const { MONGODB_URI, SESSION_SECRET } = require('./keys');
 const app = express();
 
 const hbs = exphbs({
@@ -34,7 +33,7 @@ const store = new MongoDBStore({
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-app.use(session({ secret: 'some_key', resave: false, saveUninitialized: false, store }));
+app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 app.use(csrf());
 app.use(flash());
 app.use(variablesMiddleware);
