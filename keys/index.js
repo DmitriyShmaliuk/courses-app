@@ -3,4 +3,5 @@ module.exports = {
   MONGODB_URI: 'mongodb+srv://dshmaliuk:3esUB8CeogPvg2U7@cluster0.4znuh.mongodb.net/courses-shop?retryWrites=true&w=majority',
   SESSION_SECRET: 'some-secret-key',
   BASE_EMAIL: 'dmitriy.shmaliuk@gmail.com',
+  BASE_URL: `http://127.0.0.1:${process.env.PORT}`,
 }

@@ -1,15 +1,16 @@
 const { Router } = require('express')
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const User = require('../models/user');
 const authMiddleware = require('../middlewares/auth');
 const sendRegistrationEmails = require('../emails/registration');
+const sendRestPasswordEmail = require('../emails/resetPassword');
 
 const router = new Router();
 
 router.get('/', (req, res) => {
   res.render('auth', {
     title: 'Login',
-    isAuthorization: true,
     loginError: req.flash('loginError'),
     registerError: req.flash('registerError'),
   })
@@ -80,6 +81,44 @@ router.post('/register', async (req, res) => {
   } catch (err) {
     res.redirect('/error');
   }
-})
+});
+
+router.get('/reset', (req, res) => {
+  res.render('reset', {
+    title: 'Reset password',
+    error: req.flash('error'),
+  })
+});
+
+router.post('/reset', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const candidate = await User.findOne({ email });
+
+    if (!candidate) {
+      req.flash('error', 'User with this email is not found');
+      return res.redirect('/auth#login');
+    }
+
+    candidate.resetToken = crypto.randomBytes(32, async (err, buffer) => {
+      if (err) {
+        req.flash('error', 'Something went wrong, try again later');
+        return res.redirect('/auth#login');
+      }
+
+      candidate.resetToken = buffer.toString('hex');
+      candidate.resetTokenExp = Date.now() + 3600 * 1000;
+
+      await candidate.save();
+      res.redirect('/auth#login');
+
+      sendRestPasswordEmail(email, candidate.resetToken);
+    })
+
+  } catch (err) {
+    res.redirect('/error');
+  }
+});
 
 module.exports = router;
