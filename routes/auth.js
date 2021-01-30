@@ -121,4 +121,59 @@ router.post('/reset', async (req, res) => {
   }
 });
 
+router.get('/reset/:token', async (req, res) => {
+  const { token } = req.params;
+
+  try {
+    const candidate = await User.findOne({
+      resetToken: token,
+      resetTokenExp: { $gt: Date.now() }
+    });
+
+    if(!candidate) {
+      req.flash('error', 'User is not found');
+      return res.redirect('/auth#login');
+    }
+
+    res.render('password', {
+      title: 'New password',
+      error: req.flash('error'),
+      token: token,
+      email: candidate.email,
+      id: candidate._id.toString(),
+    });
+  } catch (err) {
+    res.redirect('/error');
+  }
+});
+
+router.post('/password', async (req, res) => {
+  const { email, id, token, password, confirmPassword } = req.body;
+
+  try {
+    const candidate = await User.findOne({
+      email,
+      _id: id,
+      resetToken: token,
+      resetTokenExp: { $gt: Date.now() },
+    });
+
+    if (candidate) {
+      if (password !== confirmPassword) {
+        req.flash('error', 'Passwords are not match');
+        return res.redirect(`/auth/reset/${token}`);
+      }
+
+      candidate.password = await bcrypt.hash(password, 12);
+      await candidate.save();
+    } else {
+      req.flash('error', 'User is not found');
+    }
+
+    res.redirect('/auth#login');
+  } catch (err) {
+    res.redirect('/error');
+  }
+});
+
 module.exports = router;
