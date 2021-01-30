@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
     });
   }
   else {
-    res.redirect('error');
+    res.redirect('/error');
   }
 });
 

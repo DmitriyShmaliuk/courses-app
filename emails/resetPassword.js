@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const sendgrid = require('nodemailer-sendgrid-transport');
 const path = require('path');
 const fs = require('fs/promises');
+const { replaceLink } = require('./helpers');
 const { SENDGRID_KEY, BASE_EMAIL, BASE_URL } = require('../keys');
 
 module.exports = async function(getterEmail, token) {
@@ -13,7 +14,7 @@ module.exports = async function(getterEmail, token) {
   const template = await fs.readFile(temapltePath, 'utf-8');
 
   const resetLink = `${BASE_URL}/auth/reset/${token}`;
-  const email = getResetEmail({ template, link: resetLink, replacedText: 'default-link' });
+  const email = replaceLink({ template, link: resetLink, replacedText: 'default-link' });
 
   return transporter.sendMail({
     to: getterEmail,
@@ -21,11 +22,4 @@ module.exports = async function(getterEmail, token) {
     subject: 'Reset password of courses shop',
     html: email,
   });
-}
-
-function getResetEmail({ template, link, replacedText }) {
-  const startIndex = template.indexOf(replacedText);
-  const endIndex = startIndex + replacedText.length;
-
-  return template.slice(0, startIndex) + link + template.slice(endIndex);
 }
