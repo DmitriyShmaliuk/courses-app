@@ -18,6 +18,9 @@
     "url": "https://github.com/DmitriyShmaliuk/node-js-course/issues"
   },
   "homepage": "https://github.com/DmitriyShmaliuk/node-js-course#readme",
+  "engines": {
+    "node": "14.x.x"
+  },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.3",
     "bcrypt": "^5.0.0",
