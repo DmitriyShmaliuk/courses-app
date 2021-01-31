@@ -40,7 +40,7 @@
     <p class="alert col s8 offset-s2">{{registerError}}</p>
     {{/if}}
 
-    <form class="col s8 offset-s2" method="POST" action="/auth/register">
+    <form class="col s8 offset-s2" method="POST" action="/auth/register" novalidate>
       <div class="input-field">
         <input class="validate" id="email" placeholder="User email" name="email" type="email" required>
         <label for="courseName">User email</label>

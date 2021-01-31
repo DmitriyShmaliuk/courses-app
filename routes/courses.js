@@ -80,7 +80,7 @@ router.post('/remove', authMiddleware, async (req, res) => {
     res.redirect('/courses');
   }
   catch (err) {
-    console.log(err);
+    res.redirect('/error');
   }
 });
 

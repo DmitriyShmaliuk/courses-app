@@ -1,10 +1,12 @@
 const { Router } = require('express')
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const { validationResult } = require('express-validator');
 const User = require('../models/user');
 const authMiddleware = require('../middlewares/auth');
 const sendRegistrationEmails = require('../emails/registration');
 const sendRestPasswordEmail = require('../emails/resetPassword');
+const { registrationValidators } = require('../utils/validators');
 
 const router = new Router();
 
@@ -56,28 +58,23 @@ router.get('/logout', authMiddleware, async (req, res) => {
   });
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', registrationValidators, async (req, res) => {
   const { email, name, password, confirmPassword } = req.body;
 
   try {
-    const candidate = await User.findOne({ email });
+    const errors = validationResult(req);
 
-    if (!candidate) {
-      const hasPassword = await bcrypt.hash(password, 12);
-      const areSame = await bcrypt.compare(confirmPassword, hasPassword);
-
-      if (areSame) {
-        const newUser = new User({ email, name, password: hasPassword, cart: { items: [] }});
-        await newUser.save();
-
-        sendRegistrationEmails(email);
-        return res.redirect('/auth#login');
-      }
+    if(!errors.isEmpty()) {
+      req.flash('registerError', errors.array()[0].msg);
+      return res.redirect('/auth#register');
     }
 
-    req.flash('registerError', 'Error: There is user with this email or passwords do not match.');
-    res.redirect('/auth#register');
+    const hasPassword = await bcrypt.hash(password, 12);
+    const newUser = new User({ email, name, password: hasPassword, cart: { items: [] }});
+    await newUser.save();
 
+    sendRegistrationEmails(email);
+    res.redirect('/auth#login');
   } catch (err) {
     res.redirect('/error');
   }
