@@ -1,4 +1,4 @@
-# node-js-course
+# courses-app
 
 Full-stack application which was developed during passing Node JS course by Vladilen Minin
 
