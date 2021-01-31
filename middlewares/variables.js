@@ -10,6 +10,7 @@ module.exports = async function(req, res, next) {
     res.locals.csrf = req.csrfToken();
     next();
   } catch (err) {
+    req.flash('processError', err);
     res.redirect('/error');
   }
 }

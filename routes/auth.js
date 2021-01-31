@@ -44,6 +44,7 @@ router.post('/login', async (req, res) => {
     }
   }
   catch (err) {
+    req.flash('processError', err);
     res.redirect('/error');
   }
 });
@@ -51,6 +52,7 @@ router.post('/login', async (req, res) => {
 router.get('/logout', authMiddleware, async (req, res) => {
   req.session.destroy((err) => {
     if (err) {
+      req.flash('processError', err);
       return res.redirect('/error');
     }
 
@@ -76,6 +78,7 @@ router.post('/register', registrationValidators, async (req, res) => {
     sendRegistrationEmails(email);
     res.redirect('/auth#login');
   } catch (err) {
+    req.flash('processError', err);
     res.redirect('/error');
   }
 });
@@ -114,6 +117,7 @@ router.post('/reset', async (req, res) => {
     })
 
   } catch (err) {
+    req.flash('processError', err);
     res.redirect('/error');
   }
 });
@@ -140,6 +144,7 @@ router.get('/reset/:token', async (req, res) => {
       id: candidate._id.toString(),
     });
   } catch (err) {
+    req.flash('processError', err);
     res.redirect('/error');
   }
 });
@@ -169,6 +174,7 @@ router.post('/password', async (req, res) => {
 
     res.redirect('/auth#login');
   } catch (err) {
+    req.flash('processError', err);
     res.redirect('/error');
   }
 });

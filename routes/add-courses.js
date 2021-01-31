@@ -19,7 +19,8 @@ router.post('/', authMiddleware, async (req, res) => {
     res.redirect('/courses');
   }
   catch(err) {
-    console.log(err);
+    req.flash('processError', err);
+    res.redirect('/error');
   }
 })
 

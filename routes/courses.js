@@ -8,14 +8,20 @@ function isOwner(course, userId) {
 }
 
 router.get('/', async (req, res) => {
-  const courses = await Course.find();
+  try {
+    const courses = await Course.find();
+    const userId = req.user && req.user._id.toString();
 
-  res.render('courses', {
+    res.render('courses', {
       title: 'Courses',
       isCourses: true,
       courses,
-      userId: req.user._id.toString(),
-  });
+      userId,
+    });
+  } catch (err) {
+    req.flash('processError', err);
+    res.redirect('/error');
+  }
 });
 
 router.get('/:id', async (req, res) => {
@@ -30,6 +36,7 @@ router.get('/:id', async (req, res) => {
     });
   }
   else {
+    req.flash('processError', err);
     res.redirect('/error');
   }
 });
@@ -80,6 +87,7 @@ router.post('/remove', authMiddleware, async (req, res) => {
     res.redirect('/courses');
   }
   catch (err) {
+    req.flash('processError', err);
     res.redirect('/error');
   }
 });

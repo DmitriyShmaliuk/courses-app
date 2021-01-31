@@ -75,7 +75,8 @@ schema.methods.clearCart = async function() {
   try {
     await this.save();
   } catch (err) {
-    console.log(err);
+    req.flash('processError', err);
+    res.redirect('/error');
   }
 };
 

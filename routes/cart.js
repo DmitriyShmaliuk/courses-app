@@ -27,7 +27,8 @@ router.post('/add', authMiddleware, async (req,res) => {
     req.user.addCourseToCart(course);
   }
   catch (err) {
-    console.log(err);
+    req.flash('processError', err);
+    res.redirect('/error');
   }
 
   res.redirect('/cart');
@@ -47,7 +48,8 @@ router.delete('/remove/:id', authMiddleware, async (req, res) => {
     res.status(200).json({ courses, totalPrice });
   }
   catch (err) {
-    console.log(err);
+    req.flash('processError', err);
+    res.redirect('/error');
   }
 });
 

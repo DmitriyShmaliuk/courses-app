@@ -15,7 +15,8 @@ router.get('/', authMiddleware, async (req, res) => {
       orders: mapedOrders,
     });
   } catch (err) {
-    console.log(err);
+    req.flash('processError', err);
+    res.redirect('/error');
   }
 });
 
@@ -31,7 +32,8 @@ router.post('/add', authMiddleware, async (req, res) => {
     req.user.clearCart();
     res.redirect('/orders');
   } catch (err) {
-    console.log(err);
+    req.flash('processError', err);
+    res.redirect('/error');
   }
 });
 

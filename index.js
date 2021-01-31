@@ -16,7 +16,9 @@ const addRoutes = require('./routes/add-courses');
 const cartRoutes = require('./routes/cart');
 const ordersRoutes = require('./routes/orders');
 const authRoutes = require('./routes/auth');
+const errorRoutes = require('./routes/error');
 const variablesMiddleware = require('./middlewares/variables');
+const errorModdleware = require('./middlewares/errors');
 const { MONGODB_URI, SESSION_SECRET } = require('./keys');
 const app = express();
 
@@ -39,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 app.use(csrf());
 app.use(flash());
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(compression());
 app.use(variablesMiddleware);
 
@@ -49,6 +51,8 @@ app.use('/add', addRoutes);
 app.use('/cart', cartRoutes);
 app.use('/orders', ordersRoutes);
 app.use('/auth', authRoutes);
+app.use('/error', errorRoutes);
+app.use(errorModdleware);
 
 async function start(){
   try {
@@ -58,7 +62,8 @@ async function start(){
     });
   }
   catch (err) {
-    console.log(err);
+    req.flash('processError', err);
+    res.redirect('/error');
   }
 };
 
