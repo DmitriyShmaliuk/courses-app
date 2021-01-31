@@ -22,6 +22,7 @@ const hbs = exphbs({
   defaultLayout: 'main',
   extname: 'hbs',
   handlebars: allowInsecurePrototypeAccess(handlebars),
+  helpers: require('./utils/hbs-helpers'),
 });
 
 app.engine('hbs', hbs);

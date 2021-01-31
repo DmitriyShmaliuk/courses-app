@@ -3,13 +3,18 @@ const Course = require('../models/course');
 const authMiddleware = require('../middlewares/auth');
 const router = Router();
 
+function isOwner(course, userId) {
+  return course.userId.toString() === userId.toString();
+}
+
 router.get('/', async (req, res) => {
   const courses = await Course.find();
 
   res.render('courses', {
       title: 'Courses',
       isCourses: true,
-      courses
+      courses,
+      userId: req.user._id.toString(),
   });
 });
 
@@ -21,7 +26,7 @@ router.get('/:id', async (req, res) => {
     res.render('course', {
       title: `Course ${course.name}`,
       layout: 'empty',
-      course
+      course,
     });
   }
   else {
@@ -30,19 +35,21 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/:id/edit', authMiddleware, async (req, res) => {
-  const { id } = req.params;
-  const { allow } = req.query;
-
-  if (allow) {
+  try {
+    const { id } = req.params;
+    const { allow } = req.query;
     const course = await Course.findById(id);
 
-    res.render('course-edit', {
-      title: `Edit ${course.name}`,
-      course
-    });
-  }
-  else {
-    res.redirect('/courses');
+    if (allow && isOwner(course, req.user._id)) {
+      res.render('course-edit', {
+        title: `Edit ${course.name}`,
+        course
+      });
+    } else {
+      res.redirect('/courses');
+    }
+  } catch (err) {
+    req.redirect('/error');
   }
 });
 
@@ -51,7 +58,13 @@ router.post('/edit', authMiddleware, async (req, res) => {
   delete req.body.id;
 
   try {
-    await Course.findByIdAndUpdate(id, req.body);
+    const course = await Course.findById(id);
+
+    if (isOwner(course, req.user._id)) {
+      Object.assign(course, req.body);
+      await course.save();
+    }
+
     res.redirect('/courses');
   }
   catch (err) {
@@ -63,7 +76,7 @@ router.post('/remove', authMiddleware, async (req, res) => {
   const { id } = req.body;
 
   try {
-    await Course.findByIdAndDelete(id);
+    await Course.findOneAndDelete({_id: id, userId: req.user });
     res.redirect('/courses');
   }
   catch (err) {
