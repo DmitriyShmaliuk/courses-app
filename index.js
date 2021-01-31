@@ -8,6 +8,8 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const flash = require('connect-flash');
+const helmet = require('helmet');
+const compression = require('compression');
 const homeRoutes = require('./routes/home');
 const coursesRoutes = require('./routes/courses');
 const addRoutes = require('./routes/add-courses');
@@ -37,6 +39,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: false, store }));
 app.use(csrf());
 app.use(flash());
+app.use(helmet());
+app.use(compression());
 app.use(variablesMiddleware);
 
 app.use('/', homeRoutes);

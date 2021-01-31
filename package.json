@@ -21,6 +21,7 @@
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.3",
     "bcrypt": "^5.0.0",
+    "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^2.4.1",
     "csurf": "^1.11.0",
@@ -28,6 +29,7 @@
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",
     "express-validator": "^6.9.2",
+    "helmet": "^4.4.1",
     "mongoose": "^5.11.9",
     "nodemailer": "^6.4.17",
     "nodemailer-sendgrid-transport": "^0.2.0",
