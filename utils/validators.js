@@ -2,8 +2,8 @@ const { body } = require('express-validator');
 const User = require('../models/user');
 
 exports.registrationValidators = [
-  body('email').isEmail().withMessage('There is not email').custom(findUserByEmail),
-  body('name').isLength({ min: 3 }).withMessage('Name can not be less than 3 symbols'),
+  body('email').isEmail().withMessage('There is not email').custom(findUserByEmail).normalizeEmail(),
+  body('name').isLength({ min: 3 }).withMessage('Name can not be less than 3 symbols').trim(),
   body('passsword').isLength({ min: 8 }).isAlphanumeric(),
   body('confirmPassword').custom(comparePasswords).withMessage('Passwords do not match'),
 ];

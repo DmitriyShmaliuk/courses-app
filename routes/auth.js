@@ -66,7 +66,7 @@ router.post('/register', registrationValidators, async (req, res) => {
 
     if(!errors.isEmpty()) {
       req.flash('registerError', errors.array()[0].msg);
-      return res.redirect('/auth#register');
+      return res.status(422).redirect('/auth#register');
     }
 
     const hasPassword = await bcrypt.hash(password, 12);
